@@ -41,6 +41,7 @@ sealed interface ApplyStatus {
  * Draws every active note onto a copy of the original wallpaper and sets it.
  * Single-flight, debounced, and always catching errors so the app never crashes.
  */
+@OptIn(FlowPreview::class)
 class WallpaperApplier(
     private val context: Context,
     private val repository: NoteRepository,
@@ -58,7 +59,6 @@ class WallpaperApplier(
     private val _status = MutableStateFlow<ApplyStatus>(ApplyStatus.Idle)
     val status: StateFlow<ApplyStatus> = _status.asStateFlow()
 
-    @OptIn(FlowPreview::class)
     init {
         scope.launch {
             requests.debounce(800).collect {

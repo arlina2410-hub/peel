@@ -181,8 +181,8 @@ class NoteRenderer(private val typefaces: NoteTypefaces) {
         val paint = bodyPaint()
         var layout = bodyLayout(body, paint)
         if (layout.height > available) {
-            val firstLine = layout.getLineBottom(0) - layout.getLineTop(0)
-            val maxLines = max(1, (available / firstLine.coerceAtLeast(1f)).toInt())
+            val firstLine = (layout.getLineBottom(0) - layout.getLineTop(0)).coerceAtLeast(1)
+            val maxLines = (available / firstLine).toInt().coerceAtLeast(1)
             var lines = maxLines
             while (lines > 1) {
                 layout = bodyLayout(body, paint, maxLines = lines)
